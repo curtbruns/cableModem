@@ -14,10 +14,11 @@ class HTMLTableParser:
 #        rows = soup.find_all('tr')
 #        print ("all rows: {}".format(rows))
         tables = soup.find_all('table')
+        print("Tables found: {}".format(len(tables)))
         # Table 3 is the downstream one
         #print("all soup table ids: {}".format(soup.find_all('table')))
-        #rows = table[3].find_all('tr')
-        return tables[3]
+        #rows = table[3].find_all('tr') # Old modem
+        return tables[2]
 
     def parse_html_table(self, table):
         n_columns = 0
@@ -53,6 +54,8 @@ class HTMLTableParser:
                     column_names.append(th.get_text())
 
         # Safeguard on Column Titles
+        print ("Column Names: {}".format(column_names))
+        print ("N_Columns: {}".format(n_columns))
         if len(column_names) > 0 and len(column_names) != n_columns:
             raise Exception("Column titles do not match the number of columns")
 
@@ -80,7 +83,8 @@ class HTMLTableParser:
 
 if __name__ == '__main__':
     print("Parsing cable modem")
-    url = 'http://192.168.100.1/RgConnect.asp'
+    #url = 'http://192.168.100.1/RgConnect.asp' # old cable modem
+    url = 'http://192.168.100.1/cmconnectionstatus.html' # old cable modem
     hp = HTMLTableParser()
     table = hp.parse_url(url) # Grabbing the table from the tuple
     #print ("table is: {}".format(table))
